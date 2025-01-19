@@ -1,0 +1,119 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Captcha Verification</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 0;
+      padding: 20px;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      min-height: 100vh;
+      background-color: #f4f4f4;
+    }
+    .captcha-container {
+      background: #fff;
+      padding: 20px;
+      border-radius: 8px;
+      box-shadow: 0 4px 6px rgba(0, 0, 0, 0.1);
+      width: 300px;
+      text-align: center;
+    }
+    .captcha {
+      font-size: 20px;
+      font-weight: bold;
+      letter-spacing: 2px;
+      color: #333;
+      margin: 20px 0;
+      padding: 10px;
+      background: #e9ecef;
+      border-radius: 5px;
+    }
+    .captcha-input {
+      width: calc(100% - 20px);
+      padding: 10px;
+      margin: 10px 0;
+      font-size: 16px;
+      border: 1px solid #ccc;
+      border-radius: 5px;
+    }
+    .captcha-buttons button {
+      padding: 10px 15px;
+      font-size: 16px;
+      border: none;
+      border-radius: 5px;
+      cursor: pointer;
+      margin: 5px;
+    }
+    .verify-btn {
+      background-color: #4CAF50;
+      color: white;
+    }
+    .refresh-btn {
+      background-color: #007BFF;
+      color: white;
+    }
+    .message {
+      margin-top: 10px;
+      font-weight: bold;
+    }
+    .message.success {
+      color: green;
+    }
+    .message.error {
+      color: red;
+    }
+  </style>
+</head>
+<body>
+
+<div class="captcha-container">
+  <h2>Captcha Verification</h2>
+  <div class="captcha" id="captcha"></div>
+  <input type="text" class="captcha-input" id="captchaInput" placeholder="Enter CAPTCHA">
+  <div class="captcha-buttons">
+    <button class="verify-btn" onclick="verifyCaptcha()">Verify</button>
+    <button class="refresh-btn" onclick="generateCaptcha()">Refresh</button>
+  </div>
+  <div class="message" id="message"></div>
+</div>
+
+<script>
+  let captchaCode;
+
+  // Function to generate a random CAPTCHA
+  function generateCaptcha() {
+    
+    const characters = 'ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz0123456789';
+    captchaCode = '';
+    for (let i = 0; i < 6; i++) {
+      captchaCode += characters.charAt(Math.floor(Math.random() * characters.length));
+    }
+    
+    document.getElementById('captcha').innerText = captchaCode;
+    document.getElementById('message').innerText = ''; // Clear any previous message
+  }
+
+  // Function to verify the CAPTCHA input
+  function verifyCaptcha() {
+    const userInput = document.getElementById('captchaInput').value;
+    const message = document.getElementById('message');
+    if (userInput === captchaCode) {
+      message.innerText = 'CAPTCHA Verified Successfully!';
+      message.className = 'message success';
+    } else {
+      message.innerText = 'Invalid CAPTCHA. Please try again.';
+      message.className = 'message error';
+    }
+  }
+
+  // Generate CAPTCHA on page load
+  window.onload = generateCaptcha;
+</script>
+
+</body>
+</html>
